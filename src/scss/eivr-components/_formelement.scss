@@ -1,0 +1,69 @@
+input {
+    border: thin solid $nutral-light-color;
+    padding: $default-padding/2 $default-padding*2;
+    @include border-radius($default-padding*5 $null $null $default-padding*5);
+    @include ecs-typo($primary-font-regular, 400, 15px, 37px, $white);
+    &.search-input {
+        background-color: $primary-dark-color;
+        border: none;
+        @include device(lg) {
+            min-width: $default-unit*120;
+        }
+        @include device(xxl) {
+            min-width: $default-unit*250;
+        }
+        +.search-btn {
+            background-color: darken($primary-dark-color, 10%);
+            @include border-radius( $null $default-padding*5 $default-padding*5 $null);
+            @include ecs-typo($primary-font-regular, 400, 15px, 37px, $white);
+            padding: $default-padding/2 $default-padding;
+            border: none;
+            &:hover {
+                background-color: darken($primary-dark-color, 5%);
+            }
+        }
+    }
+}
+
+.clear-btn {
+    @include ecs-typo($primary-font-regular, 400, 15px, 15px, rgba($nutral-dark-color, .3));
+    margin-left: $default-margin/2;
+    i {
+        margin-right: $default-margin;
+    }
+    &:hover {
+        color: rgba($nutral-dark-color, .7);
+    }
+}
+
+.eivr-warning {
+    margin-top: $default-margin*2;
+    @include ecs-typo($primary-font-regular, 600, 15px, 15px, $nutral-dark-color);
+}
+
+.alert-danger {
+    background-color: $transparent-bg;
+    padding: $null;
+    border: none;
+    max-width: $full - 20;
+    width: $full;
+    display: block;
+    margin: $null auto;
+    margin-bottom: $default-margin*2;
+    @include ecs-typo($primary-font-regular, 400, 12px, 15px, $theme-danger);
+}
+
+select {
+    background-color: $primary-dark-color;
+    @include ecs-typo($primary-font-regular, 400, 13px, 18px, $white);
+    padding: $default-padding*1.45 $default-padding;
+    @include align-self(flex-end);
+    border: none;
+    width: $default-unit*65;
+    option {
+        padding: $default-padding*1.35 $default-padding;
+        display: block;
+        line-height: 24px;
+        ;
+    }
+}

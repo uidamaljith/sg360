@@ -1,0 +1,271 @@
+@import "../../scss/master.scss";
+
+.emergency {
+  margin-left: $du * 140;
+  @include flexbox();
+  @include flex-direction(column);
+  height: $full;
+  header {
+    background-color: $primary-dark;
+    h2 {
+      @include font-size(26px);
+      font-family: $primary-font;
+      color: rgba($theme-bright, 1);
+      font-weight: bold;
+      text-align: left;
+      padding: $dpadding * 5;
+    }
+  }
+  .content-section {
+    padding: $dpadding * 10;
+    @include flexbox();
+    @include flex-direction(row);
+    @include justify-content(space-between);
+
+    height: $full;
+    .section-column {
+      margin-bottom: $dmargin * 10;
+      @include flex(0 0 calc(#{$full} - 430px));
+      h3 {
+        @include font-size(18px);
+        font-family: $primary-font;
+        color: rgba($primary-dark, 1);
+        font-weight: bold;
+        text-align: left;
+        padding: $dpadding * 2 $null;
+      }
+
+      .close-eme-container {
+        // @include flexbox();
+        // @include flex-direction(row);
+        margin-bottom: $dmargin * 6;
+        .pro-eme {
+          @include flexbox();
+          @include flex-direction(column);
+          // @include align-items(center);
+          border-left: 12px red solid;
+          //   margin-right: $dmargin * 2;
+
+          .MuiCardContent-root {
+            @include flexbox();
+            @include flex-direction(column);
+            //  @include align-items(center);
+            padding: $null !important;
+            .icon-mui {
+              background-color: rgba($primary-dark, 0.05);
+              padding: $dpadding * 3;
+              padding-right: $dpadding * 5;
+            }
+
+            .pro-eme-single {
+              @include flexbox();
+              @include flex-direction(row);
+              // @include align-items(space-between);
+              @include justify-content(flex-start);
+              @include flex-wrap(wrap);
+              margin-left: $dmargin * 3;
+              padding: $dpadding * 3 $null;
+              h4 {
+                @include font-size(18px);
+                font-family: $primary-font;
+                color: rgba($nutral-color-4, 0.7);
+                font-weight: bold;
+                text-align: left;
+                padding-bottom: $dpadding * 5;
+                width: $full;
+                @include flex(0 0 $full);
+                @include flexbox();
+                @include flex-direction(row);
+                @include justify-content(space-between);
+                @include align-items(center);
+              }
+
+              h5 {
+                @include flex(0 0 calc(#{$full/3} - 30px));
+                @include flexbox();
+                @include flex-direction(row);
+                @include align-items(center);
+                @include font-size(14px);
+                font-family: $primary-font;
+                color: rgba($primary-dark, 1);
+                font-weight: normal;
+                text-align: left;
+                margin-right: $dmargin * 3;
+                &:last-child {
+                  margin-bottom: $null;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .staff-stats {
+        // display: none;
+        h4 {
+          @include font-size(18px);
+          font-family: $primary-font;
+          color: #150329;
+          background-color: rgba($primary-dark, 0.1);
+          font-weight: bold;
+          text-align: left;
+          padding: $dpadding * 4;
+        }
+        .pro-eme {
+          // display: none;
+          .staff-progres-box {
+            @include flexbox();
+            @include flex-direction(row);
+            @include justify-content(space-between);
+            @include align-items(center);
+            .staff-progress {
+              @include flexbox();
+              @include flex-direction(row);
+              @include justify-content(space-between);
+              width: 100%;
+              max-width: 50%;
+              margin-left: 20px;
+              li {
+                position: relative;
+                height: $du * 11;
+
+                &::before {
+                  content: "";
+                  display: block;
+                  position: absolute;
+                  height: 100%;
+                  width: 105%;
+                  margin-left: -20px;
+                  @include border-radius-tl-tr-br-bl(0, 11px, 11px, 0);
+                }
+                &.green {
+                  &::before {
+                    background-color: rgba($primary-color, 1);
+                    z-index: 999;
+                  }
+                }
+                &.red {
+                  &::before {
+                    background-color: rgba(red, 1);
+                    z-index: 99;
+                  }
+                }
+                &.nutral {
+                  &::before {
+                    background-color: rgba($primary-dark, 0.1);
+                    z-index: 9;
+                  }
+                }
+              }
+            }
+
+            .stats-count {
+              @include flexbox();
+              @include flex-direction(row);
+              @include justify-content(space-between);
+              width: 100%;
+              max-width: 40%;
+              h5 {
+                @include font-size(16px);
+                font-family: $primary-font;
+                color: #150329;
+                // background-color: rgba($primary-dark, 0.1);
+                font-weight: normal;
+                text-align: left;
+                @include flex(0 0 calc(#{$full/3} - 0px));
+                border: thin solid rgba($primary-dark, 0.1);
+                border-top: none;
+                border-bottom: none;
+                padding: $null $dpadding * 2;
+                span {
+                  padding: $null $dpadding;
+                  font-weight: bold;
+                }
+                &.green {
+                  span {
+                    color: rgba($primary-color, 1);
+                  }
+                }
+                &.red {
+                  span {
+                    color: rgba(red, 1);
+                  }
+                }
+                &.nutral {
+                  span {
+                    color: rgba($primary-dark, 0.1);
+                  }
+                }
+                &:last-child,
+                &:first-child {
+                  border: none;
+                }
+              }
+            }
+            .staff-stats-box {
+              @include flexbox();
+              @include flex-direction(row);
+              @include justify-content(space-between);
+            }
+          }
+        }
+      }
+
+      .staff-table {
+        border-radius: 0 !important;
+        box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+          0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+          0px 1px 3px 0px rgba(0, 0, 0, 0.12) !important;
+          background-color: rgba($theme-bright, 1);
+          ul{
+            @include flexbox();
+            @include flex-direction(row);
+            // @include justify-content(space-between);
+            margin: $null;
+            border-bottom: thin solid rgba($primary-dark, 0.1);
+            li{
+                padding: $dpadding*5;
+                border: thin solid rgba($primary-dark, 0.1);
+                border-bottom: none;
+                border-top: none;
+                @include flex(1 1 calc(#{$full/3} - 400px));
+                @include font-size(16px);
+        font-family: $primary-font;
+        color: rgba($primary-dark, 1);
+        font-weight: bold;
+        text-align: center;
+                &.name{
+                    @include flex(0 0 400px);
+                    font-weight: normal;
+                    text-align: left;
+                }
+                &.safe{
+                    background-color: rgba($primary-color, 1);
+                    color: rgba($theme-bright, 1);
+                }
+                &.nh{
+                    background-color: rgba(red, 1);
+                    color: rgba($theme-bright, 1);
+                }
+            }
+          }
+      }
+
+    }
+
+    .chat-container {
+      width: 400px;
+      .chat-box {
+        height: $full;
+      }
+      h3 {
+        @include font-size(18px);
+        font-family: $primary-font;
+        color: rgba($primary-dark, 1);
+        font-weight: bold;
+        text-align: left;
+        padding: $dpadding * 2 $null;
+      }
+    }
+  }
+}

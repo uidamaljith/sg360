@@ -1,0 +1,84 @@
+table {
+    width: $full;
+    margin-bottom: $default-margin*2;
+    display: block;
+    tr {
+        @include flexbox();
+        @include flexbox();
+        @include flex-direction(row);
+        @include justify-content(space-between);
+        th {
+            word-break: break-all;
+            padding: $default-padding*2 $default-padding*2;
+            padding-bottom: $null;
+            width: $full/3;
+            &:last-child {
+                width: $full/10;
+            }
+        }
+        td {
+            padding: $default-padding $default-padding*2;
+            word-break: break-all;
+            width: $full/3;
+            &:last-child {
+                width: $full/10;
+                @include flexbox();
+                @include flex-direction(row);
+                @include justify-content(flex-start);
+            }
+            a {
+                cursor: pointer;
+                &:hover {
+                    color: lighten($primary-dark-color, 10%);
+                }
+            }
+        }
+    }
+    thead {
+        display: block;
+        width: $full;
+        tr {
+            background-color: $nutral-light-color;
+            border-bottom: thin solid darken($nutral-light-color, 10%);
+            margin-bottom: $default-margin*2;
+            padding-right: $default-padding*2;
+            th {
+                @include ecs-typo($primary-font-regular, 400, 15px, 17px, $nutral-dark-color);
+                white-space: nowrap;
+                &::after {
+                    content: '';
+                    display: table;
+                    width: $default-unit*25;
+                    height: $default-unit*3;
+                    background-color: $primary-color;
+                    margin-top: $default-margin;
+                }
+            }
+        }
+    }
+    tbody {
+        display: block;
+        width: $full;
+        overflow-y: auto;
+        max-height: $default-unit*168;
+        @include device(mmh) {
+            max-height: $default-unit*280;
+        }
+        @include device(xl) {
+            max-height: $default-unit*240;
+        }
+        tr {
+            border-bottom: thin solid $nutral-light-color;
+            td {
+                @include ecs-typo($primary-font-regular, 400, 15px, 17px, $nutral-dark-color);
+                white-space: pre-wrap;
+                button {
+                    margin-right: $default-margin;
+                    &:last-child {
+                        margin-right: $null;
+                    }
+                }
+            }
+        }
+    }
+}

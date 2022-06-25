@@ -1,0 +1,202 @@
+@import "../../scss/master.scss";
+
+.dashboard {
+  margin-left: $du * 140;
+  header {
+    background-color: $primary-dark;
+    h2 {
+      @include font-size(26px);
+      font-family: $primary-font;
+      color: rgba($theme-bright, 1);
+      font-weight: bold;
+      text-align: left;
+      padding: $dpadding * 5;
+    }
+  }
+  .content-section {
+    padding: $dpadding * 10;
+    .section-column {
+      margin-bottom: $dmargin * 10;
+      h3 {
+        @include font-size(18px);
+        font-family: $primary-font;
+        color: rgba($primary-dark, 1);
+        font-weight: bold;
+        text-align: left;
+        padding: $dpadding * 2 $null;
+      }
+      .susp-chat {
+        @include flexbox();
+        @include flex-direction(column);
+        // @include align-items(center);
+        border-left: 12px red solid;
+
+        .MuiCardContent-root {
+          @include flexbox();
+          @include flex-direction(row);
+          @include align-items(center);
+          padding: $null !important;
+          .icon-mui {
+            background-color: rgba($primary-dark, 0.05);
+            padding: $dpadding * 3;
+            padding-right: $dpadding * 5;
+          }
+
+          .chat-box {
+            @include flexbox();
+            @include flex-direction(column);
+            // @include align-items(space-between);
+            @include justify-content(space-between);
+            width: $full;
+            margin-left: $dmargin * 3;
+            h4 {
+              @include font-size(14px);
+              font-family: $primary-font;
+              color: rgba($nutral-color-4, 0.7);
+              font-weight: bold;
+              text-align: left;
+              // padding: $dpadding*2 $null;
+              padding-bottom: $dpadding * 2;
+              width: $full;
+                @include flexbox();
+                @include flex-direction(row);
+                @include justify-content(space-between);
+                @include align-items(center);
+            }
+            .author {
+              @include font-size(10px);
+              font-family: $primary-font;
+              color: rgba($primary-dark, 1);
+              font-weight: bold;
+              text-align: left;
+            }
+          }
+        }
+      }
+      .pro-eme-container {
+        // @include flexbox();
+        // @include flex-direction(row);
+        .pro-eme {
+          @include flexbox();
+          @include flex-direction(column);
+          // @include align-items(center);
+          border-left: 12px red solid;
+          margin-right: $dmargin * 2;
+
+          .MuiCardContent-root {
+            @include flexbox();
+            @include flex-direction(column);
+            //  @include align-items(center);
+            padding: $null !important;
+            .icon-mui {
+              background-color: rgba($primary-dark, 0.05);
+              padding: $dpadding * 3;
+              padding-right: $dpadding * 5;
+            }
+
+            .pro-eme-single {
+              @include flexbox();
+              @include flex-direction(column);
+              // @include align-items(space-between);
+              @include justify-content(space-between);
+              margin-left: $dmargin * 3;
+              padding: $dpadding * 3 $null;
+              h4 {
+                @include font-size(14px);
+                font-family: $primary-font;
+                color: rgba($nutral-color-4, 0.7);
+                font-weight: bold;
+                text-align: left;
+                // padding: $dpadding*2 $null;
+                padding-bottom: $dpadding * 5;
+                // margin-bottom: $dmargin*5;
+                width: $full;
+                @include flexbox();
+                @include flex-direction(row);
+                @include justify-content(space-between);
+                @include align-items(center);
+              }
+
+              h5 {
+                @include flexbox();
+                @include flex-direction(row);
+                @include align-items(center);
+                @include font-size(14px);
+                font-family: $primary-font;
+                color: rgba($primary-dark, 1);
+                font-weight: bold;
+                text-align: left;
+                margin-bottom: $dmargin * 3;
+                &:last-child {
+                  margin-bottom: $null;
+                }
+              }
+            }
+          }
+        }
+      }
+      .close-eme-container {
+        // @include flexbox();
+        // @include flex-direction(row);
+        .pro-eme {
+          @include flexbox();
+          @include flex-direction(column);
+          // @include align-items(center);
+          border-left: 12px rgba($primary-dark, 0.05) solid;
+          margin-right: $dmargin * 2;
+
+          .MuiCardContent-root {
+            @include flexbox();
+            @include flex-direction(column);
+            //  @include align-items(center);
+            padding: $null !important;
+            .icon-mui {
+              background-color: rgba($primary-dark, 0.05);
+              padding: $dpadding * 3;
+              padding-right: $dpadding * 5;
+            }
+
+            .pro-eme-single {
+              @include flexbox();
+              @include flex-direction(column);
+              // @include align-items(space-between);
+              @include justify-content(space-between);
+              margin-left: $dmargin * 3;
+              padding: $dpadding * 3 $null;
+              h4 {
+                @include font-size(14px);
+                font-family: $primary-font;
+                color: rgba($nutral-color-4, 0.7);
+                font-weight: bold;
+                text-align: left;
+                // padding: $dpadding*2 $null;
+                padding-bottom: $dpadding * 5;
+                // margin-bottom: $dmargin*5;
+                width: $full;
+                @include flexbox();
+                @include flex-direction(row);
+                @include justify-content(space-between);
+                @include align-items(center);
+              }
+
+              h5 {
+                @include flexbox();
+                @include flex-direction(row);
+                @include align-items(center);
+                @include font-size(14px);
+                font-family: $primary-font;
+                color: rgba($primary-dark, 1);
+                font-weight: bold;
+                text-align: left;
+                margin-bottom: $dmargin * 3;
+                &:last-child {
+                  margin-bottom: $null;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
