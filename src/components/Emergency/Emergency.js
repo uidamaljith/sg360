@@ -76,33 +76,33 @@ function Emergency() {
           <div className="staff-table">
 
             <ul>
-                <li className="name">Andrew Hoggard</li>
-                <li className="safe">Safe (On Campus)</li>
-                <li className="">Safe (Off Campus)</li>
-                <li className="">Need Help</li>
+              <li className="name">Andrew Hoggard</li>
+              <li className="safe">Safe (On Campus)</li>
+              <li className="">Safe (Off Campus)</li>
+              <li className="">Need Help</li>
             </ul>
             <ul>
-                <li className="name">Andrew Hoggard</li>
-                <li className="">Safe (On Campus)</li>
-                <li className="safe">Safe (Off Campus)</li>
-                <li className="">Need Help</li>
+              <li className="name">Andrew Hoggard</li>
+              <li className="">Safe (On Campus)</li>
+              <li className="safe">Safe (Off Campus)</li>
+              <li className="">Need Help</li>
             </ul>
             <ul>
-                <li className="name">Andrew Hoggard</li>
-                <li className="">Safe (On Campus)</li>
-                <li className="">Safe (Off Campus)</li>
-                <li className="nh">Need Help</li>
+              <li className="name">Andrew Hoggard</li>
+              <li className="">Safe (On Campus)</li>
+              <li className="">Safe (Off Campus)</li>
+              <li className="nh">Need Help</li>
             </ul>
-            
+
           </div>
         </div>
-        <div className="chat-container">
+        {/* <div className="chat-container">
           <Card sx={{ minWidth: 275 }} className="chat-box">
             <CardContent>
               <h3>Chat Bot</h3>
             </CardContent>
           </Card>
-        </div>
+        </div> */}
       </div>
     </div>
   );
