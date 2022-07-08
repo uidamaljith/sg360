@@ -57,6 +57,16 @@ function Dashboard() {
       console.error(error);
     }
   }
+  async function getLockDownInfoDetails() {
+    setIsEmergencyInfo(true)
+    try {
+      const response = await axios.get(`${domain}/sgservice/lockdown/id?lockdownId=26e29cb3-a64d-4bf8-aba7-6eddf2726bfa`);
+      console.log(response);
+      getLockDownInfo()
+    } catch (error) {
+      console.error(error);
+    }
+  }
   async function getLockDownInfo() {
     setIsEmergencyInfo(true)
     try {
@@ -123,7 +133,7 @@ function Dashboard() {
                   <Grid item xs={4}>
                     <Card sx={{ minWidth: 275 }} className="pro-eme">
                       <CardContent>
-                        <div className="pro-eme-single" onClick={getLockDownInfo}>
+                        <div className="pro-eme-single" onClick={getLockDownInfoDetails}>
                           <h4>Intruder <ChevronRightIcon /></h4>
                           <h5 className="author">
                             <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
