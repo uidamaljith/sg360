@@ -1,0 +1,9 @@
+@import "../../scss/master.scss";
+.logincontainer{
+    @include flexbox();
+    @include justify-content(center);
+    @include align-items(center);
+    .logo-login{
+        margin-bottom: $dmargin*8;
+    }
+}

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './App.scss';
 import MainNav from "./components/Aside/MainNav";
 import Dashboard from './components/Dashboard/Dashboard';
-import Login from './components/login/login';
+import SignInSide from './components/Login/SignIn';
+
+// import Login from './components/Login/login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './components/Auth';
 import { RequireAuth } from './components/RequireAuth'
@@ -27,14 +29,13 @@ function App() {
           <Routes>
             <React.Fragment>
               <Route path="/dashboard" exact element={<RequireAuth> <Dashboard /></RequireAuth>} />
-              <Route path="/login" exact element={<Login />} />
+              <Route path="/login" exact element={<SignInSide />} />
             </React.Fragment>
           </Routes>
         </div>
       </Router>
     </AuthProvider>
-
-  );
+  )
 }
 
 export default App;
