@@ -1,15 +1,16 @@
 import React from "react";
-import {Link,useNavigate} from 'react-router-dom'
+import {Link,NavLink,useNavigate} from 'react-router-dom'
 import "./MainNav.scss";
 import logo from "../../assets/sg360@2x.png";
+import { useAuth } from "../Auth";
 
 const axios = require('axios').default;
 
 function MainNav() {
   const nav = useNavigate();
-    axios.interceptors.request.use(function (config) {
-    const token = localStorage.token;
-    config.headers.Token = token;
+  const auth = useAuth();
+  axios.interceptors.request.use(function (config) {
+    config.headers.Token = localStorage.token;
     config.headers.schoolCode = localStorage.schoolCode;
     return config;
   });
@@ -30,6 +31,13 @@ function MainNav() {
       <li>
         <Link className="active" to="/dashboard">Home</Link>
       </li>
+      {
+        !auth.user && (
+          <li>
+            <Link className="active" to="/login">Login</Link>
+          </li>
+        )
+      }
       <li><a href="http://">Manage Users</a></li>
       <li><a href="http://">Manage Emergency Contacts</a></li>
       <li><a href="http://">Suspicious Activity</a></li>

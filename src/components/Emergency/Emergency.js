@@ -9,7 +9,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PendingOutlinedIcon from "@mui/icons-material/PendingOutlined";
 import { Grid } from "@mui/material";
 
-function Emergency() {
+function Emergency({ staffdeatils, details, sendDataToParent }) {
   return (
     <div className="MainContainer emergency">
       <header>
@@ -18,16 +18,17 @@ function Emergency() {
 
       <div className="content-section">
         <div className="section-column">
+          <button onClick={() => { sendDataToParent(); }}>Back</button>
           <div className="close-eme-container">
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Card sx={{ minWidth: 275 }} className="pro-eme">
                   <CardContent>
                     <div className="pro-eme-single">
-                      <h4>Intruder</h4>
+                      <h4>{details.incidentType}</h4>
                       <h5 className="author">
                         <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
-                        <label>Baseball court</label>
+                        <label>{details.incidentLoc == null ? 'No location info' : details.incidentLoc}</label>
                       </h5>
                       <h5 className="author">
                         <AccessTimeIcon sx={{ fontSize: 24 }} />

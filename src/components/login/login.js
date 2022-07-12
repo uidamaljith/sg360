@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../Auth'
 
 function Login() {
   const axios = require('axios').default;
-  const [domain, setDomain] = useState('https://prod.schoolguard360.com')
-  const [userName, setUserName] = useState("")
-  const [userPassword, setPassword] = useState("")
-  const [companyCode, setCompanyCode] = useState("123")
-  const [header, setHeader] = useState("")
-  const nav = useNavigate();
+  const [user, setUser] = useState('')
+  const auth = useAuth();
+  const [userName, setUserName] = useState('')
+  const [userPassword, setPassword] = useState('')
+  const [companyCode, setCompanyCode] = useState('')
+
+  const navigate = useNavigate();
   localStorage.setItem("domain", "https://prod.schoolguard360.com")
   useEffect(() => {
     const params = new URLSearchParams(window.location.search) // id=123
-    let code = params.get('schoolCode')
+    let code = params.get('schoolCode');
     console.log(companyCode);
+    if (localStorage.token) {
+      navigate("/dashboard", { replace: true });
+    }
     //setCompanyCode(code);
-    localStorage.removeItem("token");
+    //localStorage.removeItem("token");
   })
 
   async function getAuth(company) {
     try {
-      const response = await axios.get(`${domain}/sgpublicservice/public/${companyCode}/preload`);
-      console.log(response);
-      console.log(response.data.data.Domain);
-      if (response.data.data.Domain) {
-        setDomain(response.data.data.Domain);
-        localStorage.setItem("domain", response.data.data.Domain)
-      }
-      login(response.data.data.Domain);
+      const response = await axios.get(`https://prod.schoolguard360.com/sgpublicservice/public/${companyCode}/preload`);
+      const domainName = response.data.data.Domain ? response.data.data.Domain : 'prod.schoolguard360.com'
+      login(domainName);
     } catch (error) {
       console.error(error);
     }
   }
   async function login(domainname) {
     try {
-      const response = await axios.post(`https://${domainname}/sgservice/public/login/${userName}`, {
+      const response = await axios.post(`https://${domainname}/sgservice/public/login/+1${userName}`, {
         password: userPassword,
       }, {
         headers: {
@@ -42,33 +42,24 @@ function Login() {
           'schoolCode': companyCode
         }
       });
-      console.log(response.headers);
+      localStorage.setItem("domain", domainname);
       localStorage.setItem("token", response.headers.token);
       localStorage.setItem("schoolCode", companyCode);
-      nav("/dashboard");
+      auth.login(userName);
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       console.error(error);
     }
   }
-  // const changeUserName = e => {
-  //   setUserName(e.target.value);
-  // }
-  // const changePassword = e => {
-  //   setPassword(e.target.value);
-  // }
-  // const changeCompanyCode = e => {
-  //   console.log(companyCode)
-  //   setCompanyCode(e.target.value);
-  //   console.log(companyCode)
-  // }
-  const submitHandler = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    console.log(userName, userPassword);
+    localStorage.removeItem("domain");
+    localStorage.removeItem("token");
     getAuth(companyCode);
   }
   return (
     <div className="MainContainer dashboard">
-      <form onSubmit={submitHandler}>
+      <form onSubmit={handleLogin}>
         <label for="username"></label>User:<br />
         <input type="text" name="username" value={userName} onChange={e => setUserName(e.target.value)} /><br />
         <label for="username">Password:</label><br />
