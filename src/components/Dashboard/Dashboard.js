@@ -143,6 +143,7 @@ function Dashboard() {
                             <h5 className="author">
                               <AccessTimeIcon sx={{ fontSize: 24 }} />
                               <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
+                              <span>{ }</span>
                             </h5>
                           </> : <h4>No emergency data found</h4>
                           }

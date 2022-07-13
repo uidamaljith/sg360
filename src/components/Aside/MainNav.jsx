@@ -31,13 +31,6 @@ function MainNav() {
       <li>
         <Link className="active" to="/dashboard">Home</Link>
       </li>
-      {
-        !auth.user && (
-          <li>
-            <Link className="active" to="/login">Login</Link>
-          </li>
-        )
-      }
       <li><a href="http://">Manage Users</a></li>
       <li><a href="http://">Manage Emergency Contacts</a></li>
       <li><a href="http://">Suspicious Activity</a></li>
