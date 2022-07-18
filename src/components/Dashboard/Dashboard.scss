@@ -76,6 +76,7 @@
       .pro-eme-container {
         // @include flexbox();
         // @include flex-direction(row);
+        cursor: pointer;
         .pro-eme {
           @include flexbox();
           @include flex-direction(column);
@@ -138,6 +139,7 @@
       .close-eme-container {
         // @include flexbox();
         // @include flex-direction(row);
+        cursor: pointer;
         .pro-eme {
           @include flexbox();
           @include flex-direction(column);

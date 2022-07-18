@@ -34,7 +34,7 @@ function MainNav() {
       <li><a href="http://">Manage Users</a></li>
       <li><a href="http://">Manage Emergency Contacts</a></li>
       <li><a href="http://">Suspicious Activity</a></li>
-      <li><button onClick={logoutHandler}>Logout</button> </li>
+      <li><a href="" onClick={logoutHandler}>Logout</a> </li>
     </ul>
   </aside>
   )

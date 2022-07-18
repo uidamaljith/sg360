@@ -25,6 +25,9 @@
     height: $full;
     .section-column {
       margin-bottom: $dmargin * 10;
+      .back-button{
+        margin-bottom: 10px;
+      }
       @include flex(0 0 calc(#{$full} - 430px));
       h3 {
         @include font-size(18px);
