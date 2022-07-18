@@ -14,68 +14,83 @@ const axios = require('axios').default;
 function Dashboard() {
   const [emergency, setEmergency] = useState({});
   const [isEmergencyInfo, setIsEmergencyInfo] = useState(false);
-  const token = localStorage.token;
+  const [emergencyStatus, setEmergencyStatus] = useState(false);
+  const [closedEmergencyHistory, setClosedEmergencyHistory] = useState([]);
+  const [lockdownInfo, setLockdownInfo] = useState([]);
+  const [staffDetails, setStaffDetails] = useState([]);
   const domain = localStorage.domain;
+  const fullDomain = `https://${domain}`
   const schoolCode = localStorage.schoolCode;
   console.log(domain, schoolCode)
   useEffect(() => {
     getOpenEmergencey();
-    getInProgressEmergencey();
+    getInProgressEmergenceyStatus();
     getClosedEmergencey();
   }, [])
   async function getOpenEmergencey() {
     try {
-      const response = await axios.get(`${domain}/sgservice/report/list/open`);
-      console.log(response.data.data[0]);
+      const response = await axios.get(`${fullDomain}/sgservice/report/list/open`, {
+        headers: {
+          "Token": localStorage.token,
+          "schoolCode": localStorage.schoolCode
+        }
+      });
       setEmergency(response.data.data[0]);
     } catch (error) {
       console.error(error);
     }
   }
-  async function getInProgressEmergencey() {
+  async function getInProgressEmergenceyStatus() {
     try {
-      const response = await axios.get(`${domain}/sgservice/lockdown/status`);
-      console.log(response);
-      getEmergenceyDetails();
+      const response = await axios.get(`${fullDomain}/sgservice/lockdown/status`);
+      setEmergencyStatus(response.data.data)
+      if (response.data) {
+        getEmergenceyDetails();
+      }
     } catch (error) {
       console.error(error);
     }
   }
   async function getEmergenceyDetails() {
     try {
-      const response = await axios.get(`${domain}/sgservice/lockdown/detail`);
-      console.log(response);
+      const response = await axios.get(`${fullDomain}/sgservice/lockdown/detail`);
     } catch (error) {
       console.error(error);
     }
   }
   async function getClosedEmergencey() {
     try {
-      const response = await axios.get(`${domain}/sgservice/lockdown/history`);
-      console.log(response);
+      const response = await axios.get(`${fullDomain}/sgservice/lockdown/history`);
+      console.log(response.data.data);
+      setClosedEmergencyHistory(response.data.data)
     } catch (error) {
       console.error(error);
     }
   }
-  async function getLockDownInfoDetails() {
-    setIsEmergencyInfo(true)
+  async function getLockDownInfoDetails(lockdownId) {
     try {
-      const response = await axios.get(`${domain}/sgservice/lockdown/id?lockdownId=26e29cb3-a64d-4bf8-aba7-6eddf2726bfa`);
-      console.log(response);
-      getLockDownInfo()
+      const response = await axios.get(`${fullDomain}/sgservice/lockdown/id?lockdownId=${lockdownId}`);
+      getLockDownInfo(lockdownId)
+      setLockdownInfo(response.data.data)
     } catch (error) {
       console.error(error);
     }
   }
-  async function getLockDownInfo() {
-    setIsEmergencyInfo(true)
+
+  async function getLockDownInfo(lockdownId) {
     try {
-      const response = await axios.get(`${domain}/sgservice/safety/statusSummary/?lockdownId=216d53f1-3b63-4e06-b440-36248b5b6964`);
-      console.log(response);
+      const response = await axios.get(`${fullDomain}/sgservice/safety/statusSummary/?lockdownId=${lockdownId}`);
+      console.log(response.data.data);
+      setStaffDetails(response.data.data);
+      setIsEmergencyInfo(true)
     } catch (error) {
       console.error(error);
     }
   }
+  const backToDashboard = () => {
+    console.log("back"); // the callback. Use a better name
+    setIsEmergencyInfo(false);
+  };
   // getClosedEmergencey(){ }
   return (
     <>
@@ -92,12 +107,21 @@ function Dashboard() {
                   <div className="icon-mui">
                     <ChatBubbleOutlineIcon sx={{ fontSize: 30 }} />
                   </div>
+
                   <div className="chat-box">
-                    <h4>{emergency.report}<ChevronRightIcon /></h4>
-                    <h5 className="author">
-                      <label>Andrew Hoggard,</label>&nbsp;<span>Jun 5, 2020,</span>
-                      &nbsp;<span>08:50 AM</span>
-                    </h5>
+                    {emergency ? (
+                      <>
+                        <h4>{emergency.report ? emergency.report : ''}<ChevronRightIcon /></h4>
+                        <h5 className="author">
+                          <label>Andrew Hoggard,</label>&nbsp;<span>Jun 5, 2020,</span>
+                          &nbsp;<span>08:50 AM</span>
+                        </h5>
+                      </>
+
+                    ) : (
+                      <h4>No data found</h4>
+                    )}
+
                   </div>
                 </CardContent>
               </Card>
@@ -110,15 +134,20 @@ function Dashboard() {
                     <Card sx={{ minWidth: 275 }} className="pro-eme">
                       <CardContent>
                         <div className="pro-eme-single">
-                          <h4>Intruder <ChevronRightIcon /></h4>
-                          <h5 className="author">
-                            <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
-                            <label>Baseball court</label>
-                          </h5>
-                          <h5 className="author">
-                            <AccessTimeIcon sx={{ fontSize: 24 }} />
-                            <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
-                          </h5>
+                          {emergencyStatus ? <>
+                            <h4>Intruder <ChevronRightIcon /></h4>
+                            <h5 className="author">
+                              <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
+                              <label>Baseball court</label>
+                            </h5>
+                            <h5 className="author">
+                              <AccessTimeIcon sx={{ fontSize: 24 }} />
+                              <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
+                              <span>{ }</span>
+                            </h5>
+                          </> : <h4>No emergency data found</h4>
+                          }
+
                         </div>
                       </CardContent>
                     </Card>
@@ -130,63 +159,32 @@ function Dashboard() {
               <h3>Closed Emergency</h3>
               <div className="close-eme-container">
                 <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <Card sx={{ minWidth: 275 }} className="pro-eme">
-                      <CardContent>
-                        <div className="pro-eme-single" onClick={getLockDownInfoDetails}>
-                          <h4>Intruder <ChevronRightIcon /></h4>
-                          <h5 className="author">
-                            <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
-                            <label>Baseball court</label>
-                          </h5>
-                          <h5 className="author">
-                            <AccessTimeIcon sx={{ fontSize: 24 }} />
-                            <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
-                          </h5>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Card sx={{ minWidth: 275 }} className="pro-eme">
-                      <CardContent>
-                        <div className="pro-eme-single">
-                          <h4>Intruder <ChevronRightIcon /></h4>
-                          <h5 className="author">
-                            <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
-                            <label>Baseball court</label>
-                          </h5>
-                          <h5 className="author">
-                            <AccessTimeIcon sx={{ fontSize: 24 }} />
-                            <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
-                          </h5>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Card sx={{ minWidth: 275 }} className="pro-eme">
-                      <CardContent>
-                        <div className="pro-eme-single">
-                          <h4>Intruder</h4>
-                          <h5 className="author">
-                            <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
-                            <label>Baseball court</label>
-                          </h5>
-                          <h5 className="author">
-                            <AccessTimeIcon sx={{ fontSize: 24 }} />
-                            <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
-                          </h5>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  {closedEmergencyHistory.map((item, index) => (
+                    <Grid item xs={4} key={index}>
+                      <Card sx={{ minWidth: 275 }} className="pro-eme">
+                        <CardContent>
+                          <div className="pro-eme-single" onClick={() => getLockDownInfoDetails(item.lockdownId)}>
+                            <h4>{item.incidentType} <ChevronRightIcon /></h4>
+                            <h5 className="author">
+                              <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
+                              <label>Baseball court</label>
+                            </h5>
+                            <h5 className="author">
+                              <AccessTimeIcon sx={{ fontSize: 24 }} />
+                              <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
+                            </h5>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+
+                  ))}
                 </Grid>
               </div>
             </div>
           </div>
 
-        </div> : <Emergency></Emergency>
+        </div> : <Emergency staffdeatils={staffDetails} details={lockdownInfo} sendDataToParent={backToDashboard} ></Emergency>
       }
     </>
 

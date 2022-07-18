@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,8 +12,9 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useAuth } from '../Auth'
 import "./Login.scss";
-
+import { useNavigate } from "react-router-dom";
 import SignInBg from "../../assets/bgimage.jpg";
 import logo from "../../assets/sg360@2x.png";
 
@@ -37,15 +38,69 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function SignInSide({sendDataToParent}) {
+  const axios = require('axios').default;
+  const [schoolCode, setSchoolCode] = useState('')
+  const auth = useAuth();
+
+  const navigate = useNavigate();
+  localStorage.setItem("domain", "https://prod.schoolguard360.com")
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search) // id=123
+    let code = params.get('schoolCode');
+    setSchoolCode(code);
+    if (localStorage.token) {
+      navigate("/dashboard", { replace: true });
+    }
+    //setCompanyCode(code);
+    //localStorage.removeItem("token");
+  })
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
       password: data.get("password"),
+      schoolCode: data.get("companyCode"),
     });
+    const loginObj = {
+      userName: data.get("user"),
+      password: data.get("password"),
+      schoolCode: data.get("companyCode"),
+    }
+    localStorage.removeItem("domain");
+    localStorage.removeItem("token");
+    getAuth(loginObj);
   };
+
+  async function getAuth(loginObj) {
+    try {
+      const response = await axios.get(`https://prod.schoolguard360.com/sgpublicservice/public/${loginObj.schoolCode}/preload`);
+      const domainName = ( response.data.data  && response.data.data.Domain) ? response.data.data.Domain : 'prod.schoolguard360.com';
+      localStorage.setItem("schoolCode", loginObj.schoolCode);
+      login(loginObj,domainName);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function login(loginObj,domainname) {
+    try {
+      const response = await axios.post(`https://${domainname}/sgservice/public/login/+1${loginObj.userName}`, {
+        password: loginObj.password,
+      }, {
+        headers: {
+          'schoolCode': loginObj.schoolCode
+        }
+      });
+      localStorage.setItem("domain", domainname);
+      localStorage.setItem("token", response.headers.token);
+      auth.login(loginObj.userName);
+      sendDataToParent();
+      navigate("/dashboard", { replace: true });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -91,10 +146,10 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="user"
+                label="user"
+                name="user"
+                autoComplete="user"
                 autoFocus
               />
               <TextField
@@ -106,6 +161,16 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+              />
+               <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="companyCode"
+                label="companyCode"
+                value={schoolCode}
+                type="text"
+                id="companyCode"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
