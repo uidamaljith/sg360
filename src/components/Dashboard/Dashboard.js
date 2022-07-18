@@ -12,12 +12,14 @@ import { Grid } from "@mui/material";
 const axios = require('axios').default;
 
 function Dashboard() {
-  const [emergency, setEmergency] = useState({});
+  const [emergency, setEmergency] = useState([]);
   const [isEmergencyInfo, setIsEmergencyInfo] = useState(false);
   const [emergencyStatus, setEmergencyStatus] = useState(false);
+  const [inProgressEmergency, setInProgressEmergency] = useState([]);
   const [closedEmergencyHistory, setClosedEmergencyHistory] = useState([]);
   const [lockdownInfo, setLockdownInfo] = useState([]);
   const [staffDetails, setStaffDetails] = useState([]);
+  const [staffSafetyList, setStaffSafetyList] = useState([]);
   const domain = localStorage.domain;
   const fullDomain = `https://${domain}`
   const schoolCode = localStorage.schoolCode;
@@ -35,7 +37,8 @@ function Dashboard() {
           "schoolCode": localStorage.schoolCode
         }
       });
-      setEmergency(response.data.data[0]);
+      console.log(response.data.data)
+      setEmergency(response.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -54,6 +57,8 @@ function Dashboard() {
   async function getEmergenceyDetails() {
     try {
       const response = await axios.get(`${fullDomain}/sgservice/lockdown/detail`);
+      console.log(response.data.data);
+      setInProgressEmergency(response.data.data)
     } catch (error) {
       console.error(error);
     }
@@ -62,7 +67,7 @@ function Dashboard() {
     try {
       const response = await axios.get(`${fullDomain}/sgservice/lockdown/history`);
       console.log(response.data.data);
-      setClosedEmergencyHistory(response.data.data)
+      setClosedEmergencyHistory(response.data.data.slice(0, 6))
     } catch (error) {
       console.error(error);
     }
@@ -82,7 +87,18 @@ function Dashboard() {
       const response = await axios.get(`${fullDomain}/sgservice/safety/statusSummary/?lockdownId=${lockdownId}`);
       console.log(response.data.data);
       setStaffDetails(response.data.data);
-      setIsEmergencyInfo(true)
+      setIsEmergencyInfo(true);
+      getStaffSafetyList(lockdownId);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getStaffSafetyList(lockdownId) {
+    try {
+      const response = await axios.get(`${fullDomain}/sgservice/safety/statusList/?lockdownId=${lockdownId}`);
+      console.log(response.data.data);
+      setStaffSafetyList(response.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -102,29 +118,26 @@ function Dashboard() {
           <div className="content-section">
             <div className="section-column sp-acivity">
               <h3>Open Suspicious Activity</h3>
-              <Card sx={{ minWidth: 275 }} className="susp-chat">
-                <CardContent>
-                  <div className="icon-mui">
-                    <ChatBubbleOutlineIcon sx={{ fontSize: 30 }} />
-                  </div>
+              {
+                emergency.map((item, index) => (
+                  <Card sx={{ minWidth: 275 }} className="susp-chat">
+                    <CardContent>
+                      <div className="icon-mui">
+                        <ChatBubbleOutlineIcon sx={{ fontSize: 30 }} />
+                      </div>
+                      <div className="chat-box">
+                        <>
+                          <h4>{item.report ? item.report : ''}<ChevronRightIcon /></h4>
+                          <h5 className="author">
+                            <label>Reported time :</label>&nbsp;<span>{item.reportedTime}</span>
+                          </h5>
+                        </>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              }
 
-                  <div className="chat-box">
-                    {emergency ? (
-                      <>
-                        <h4>{emergency.report ? emergency.report : ''}<ChevronRightIcon /></h4>
-                        <h5 className="author">
-                          <label>Andrew Hoggard,</label>&nbsp;<span>Jun 5, 2020,</span>
-                          &nbsp;<span>08:50 AM</span>
-                        </h5>
-                      </>
-
-                    ) : (
-                      <h4>No data found</h4>
-                    )}
-
-                  </div>
-                </CardContent>
-              </Card>
             </div>
             <div className="section-column">
               <h3>In Progress Emergency</h3>
@@ -133,16 +146,17 @@ function Dashboard() {
                   <Grid item xs={4}>
                     <Card sx={{ minWidth: 275 }} className="pro-eme">
                       <CardContent>
-                        <div className="pro-eme-single">
+                        <div className="pro-eme-single" onClick={() => getLockDownInfoDetails(inProgressEmergency.lockdownId)}>
                           {emergencyStatus ? <>
-                            <h4>Intruder <ChevronRightIcon /></h4>
+                            <h4>{inProgressEmergency.incidentType} <ChevronRightIcon /></h4>
                             <h5 className="author">
-                              <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
-                              <label>Baseball court</label>
+                              {/* <LocationOnOutlinedIcon sx={{ fontSize: 24 }} /> */}
+                              <h3>Approver: </h3>
+                              <label>{inProgressEmergency.approvedBy}</label>
                             </h5>
                             <h5 className="author">
                               <AccessTimeIcon sx={{ fontSize: 24 }} />
-                              <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
+                              <span>{inProgressEmergency.approvedTime}</span>
                               <span>{ }</span>
                             </h5>
                           </> : <h4>No emergency data found</h4>
@@ -166,12 +180,19 @@ function Dashboard() {
                           <div className="pro-eme-single" onClick={() => getLockDownInfoDetails(item.lockdownId)}>
                             <h4>{item.incidentType} <ChevronRightIcon /></h4>
                             <h5 className="author">
-                              <LocationOnOutlinedIcon sx={{ fontSize: 24 }} />
-                              <label>Baseball court</label>
+                              {/* <LocationOnOutlinedIcon sx={{ fontSize: 24 }} /> */}
+                              <h3>Approver: </h3>
+                              <label>{item.approvedBy}</label>
                             </h5>
                             <h5 className="author">
                               <AccessTimeIcon sx={{ fontSize: 24 }} />
-                              <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
+                              <h3>Start time: </h3>
+                              <span>{item.approvedTime}</span>
+                            </h5>
+                            <h5 className="author">
+                              <AccessTimeIcon sx={{ fontSize: 24 }} />
+                              <h3>End time: </h3>
+                              <span>{item.endTime}</span>
                             </h5>
                           </div>
                         </CardContent>
@@ -184,7 +205,7 @@ function Dashboard() {
             </div>
           </div>
 
-        </div> : <Emergency staffdeatils={staffDetails} details={lockdownInfo} sendDataToParent={backToDashboard} ></Emergency>
+        </div> : <Emergency staffdeatils={staffDetails} details={lockdownInfo} staffsafety={staffSafetyList} sendDataToParent={backToDashboard} ></Emergency>
       }
     </>
 

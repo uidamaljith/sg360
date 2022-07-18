@@ -8,8 +8,8 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PendingOutlinedIcon from "@mui/icons-material/PendingOutlined";
 import { Grid } from "@mui/material";
-
-function Emergency({ staffdeatils, details, sendDataToParent }) {
+import Button from '@mui/material/Button';
+function Emergency({ staffdeatils, details, staffSafetyList, sendDataToParent }) {
   return (
     <div className="MainContainer emergency">
       <header>
@@ -18,7 +18,7 @@ function Emergency({ staffdeatils, details, sendDataToParent }) {
 
       <div className="content-section">
         <div className="section-column">
-          <button onClick={() => { sendDataToParent(); }}>Back</button>
+          <Button className="back-button" variant="contained" onClick={() => { sendDataToParent(); }}>Back</Button>
           <div className="close-eme-container">
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -32,11 +32,11 @@ function Emergency({ staffdeatils, details, sendDataToParent }) {
                       </h5>
                       <h5 className="author">
                         <AccessTimeIcon sx={{ fontSize: 24 }} />
-                        <span>Jun 5, 2020,</span>&nbsp;<span>08:50 AM</span>
+                        <span>{details.approvedTime ? details.approvedTime : ' No data'}</span>
                       </h5>
                       <h5 className="author">
                         <PendingOutlinedIcon sx={{ fontSize: 24 }} />
-                        <span>In Progress</span>
+                        <span>{details.lockdownActive ? 'In Progress' : 'Closed'}</span>
                       </h5>
                     </div>
                   </CardContent>
@@ -52,19 +52,22 @@ function Emergency({ staffdeatils, details, sendDataToParent }) {
                   <CardContent>
                     <div className="staff-progres-box">
                       <ul className="staff-progress">
-                        <li style={{ width: "40%" }} className="green"></li>
-                        <li style={{ width: "30%" }} className="red"></li>
-                        <li style={{ width: "30%" }} className="nutral"></li>
+                        <li style={{ width: toString((staffdeatils.totalCount / staffdeatils.safeCount) * 100) }} className="green"></li>
+                        <li style={{ width: toString((staffdeatils.totalCount / staffdeatils.unSafeCount) * 100) }} className="red"></li>
+                        <li style={{ width: toString((staffdeatils.totalCount / (staffdeatils.totalCount - (staffdeatils.safeCount + staffdeatils.unSafeCount))) * 100) }} className="nutral"></li>
                       </ul>
                       <div className="stats-count">
                         <h5 className="green">
-                          <span>2</span>Safe
+                          <span>{staffdeatils.totalCount}</span>Total
+                        </h5>
+                        <h5 className="green">
+                          <span>{staffdeatils.safeCount}</span>Safe
                         </h5>
                         <h5 className="red">
-                          <span>1</span>Need Help
+                          <span>{staffdeatils.unSafeCount}</span>Need Help
                         </h5>
                         <h5 className="nutral">
-                          <span>0</span>Unknown
+                          <span>{staffdeatils.totalCount}</span>Unknown
                         </h5>
                       </div>
                     </div>
@@ -75,25 +78,12 @@ function Emergency({ staffdeatils, details, sendDataToParent }) {
             </Grid>
           </div>
           <div className="staff-table">
-
-            <ul>
+            {staffSafetyList ? (<ul>
               <li className="name">Andrew Hoggard</li>
               <li className="safe">Safe (On Campus)</li>
               <li className="">Safe (Off Campus)</li>
               <li className="">Need Help</li>
-            </ul>
-            <ul>
-              <li className="name">Andrew Hoggard</li>
-              <li className="">Safe (On Campus)</li>
-              <li className="safe">Safe (Off Campus)</li>
-              <li className="">Need Help</li>
-            </ul>
-            <ul>
-              <li className="name">Andrew Hoggard</li>
-              <li className="">Safe (On Campus)</li>
-              <li className="">Safe (Off Campus)</li>
-              <li className="nh">Need Help</li>
-            </ul>
+            </ul>) : <div><h3>No data found</h3></div>}
 
           </div>
         </div>

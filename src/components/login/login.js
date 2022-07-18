@@ -60,7 +60,7 @@ function Login() {
   return (
     <div className="MainContainer dashboard">
       <form onSubmit={handleLogin}>
-        <label for="username"></label>User:<br />
+        <label for="username"></label>User ID:<br />
         <input type="text" name="username" value={userName} onChange={e => setUserName(e.target.value)} /><br />
         <label for="username">Password:</label><br />
         <input type="password" name="password" value={userPassword} onChange={e => setPassword(e.target.value)} /><br />

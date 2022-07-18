@@ -147,7 +147,7 @@ export default function SignInSide({sendDataToParent}) {
                 required
                 fullWidth
                 id="user"
-                label="user"
+                label="User ID"
                 name="user"
                 autoComplete="user"
                 autoFocus
@@ -167,15 +167,16 @@ export default function SignInSide({sendDataToParent}) {
                 required
                 fullWidth
                 name="companyCode"
-                label="companyCode"
+                label="Company Code"
                 value={schoolCode}
-                type="text"
                 id="companyCode"
+                autoComplete="companyCode"
+                inputProps={{ style: { textTransform: "uppercase" } }}
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth
