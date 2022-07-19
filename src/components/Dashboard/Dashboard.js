@@ -111,7 +111,7 @@ function Dashboard() {
   return (
     <>
       {
-        !isEmergencyInfo ? <div className="MainContainer dashboard">
+        !isEmergencyInfo ? <div className={'MainContainer dashboard ' + (emergencyStatus ? 'main-background' : '')} >
           <header>
             <h2>Dashboard</h2>
           </header>
