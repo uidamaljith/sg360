@@ -5,20 +5,23 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PendingOutlinedIcon from "@mui/icons-material/PendingOutlined";
 import { Grid } from "@mui/material";
 import Button from '@mui/material/Button';
+
 function Emergency({ staffdeatils, details, staffSafetyList, sendDataToParent }) {
   return (
     <div className="MainContainer emergency">
       <header>
+        <Button className="back-button" variant="outlined" onClick={() => { sendDataToParent(); }}><ArrowBackIosNewIcon style={{ color: '#fff' }} /></Button>
         <h2>Emergency</h2>
       </header>
 
       <div className="content-section">
         <div className="section-column">
-          <Button className="back-button" variant="contained" onClick={() => { sendDataToParent(); }}>Back</Button>
+          
           <div className="close-eme-container">
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -83,7 +86,7 @@ function Emergency({ staffdeatils, details, staffSafetyList, sendDataToParent })
               <li className="safe">Safe (On Campus)</li>
               <li className="">Safe (Off Campus)</li>
               <li className="">Need Help</li>
-            </ul>) : <div><h3>No data found</h3></div>}
+            </ul>) : <div className="nodata"><h3>No data found</h3></div>}
 
           </div>
         </div>

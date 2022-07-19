@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.scss';
 import MainNav from "./components/Aside/MainNav";
 import Dashboard from './components/Dashboard/Dashboard';
-import SignInSide from './components/login/SignIn';
+import SignInSide from './components/Login/SignIn';
 import Manageusers from './components/Manageusers/Manageusers'
 import ManageEmergency from './components/Mangeemergencycontacts/Manageemergency'
 import Login from './components/login/login';
