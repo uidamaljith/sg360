@@ -1,69 +1,83 @@
 input {
-    border: thin solid $nutral-light-color;
-    padding: $default-padding/2 $default-padding*2;
-    @include border-radius($default-padding*5 $null $null $default-padding*5);
-    @include ecs-typo($primary-font-regular, 400, 15px, 37px, $white);
+    border: thin solid  $nutral-color-1;
+    padding:  $dpadding/2  $dpadding*2;
+    @include border-radius( $dpadding*5 $null $null  $dpadding*5);
+    // @include typo($primary-font-regular, 400, 15px, 37px, $white);
     &.search-input {
-        background-color: $primary-dark-color;
+        background-color: $primary-dark;
         border: none;
-        @include device(lg) {
-            min-width: $default-unit*120;
+        @include respond-above(lg) {
+            min-width: $du*120;
         }
-        @include device(xxl) {
-            min-width: $default-unit*250;
+        @include respond-above(xxl) {
+            min-width: $du*250;
         }
         +.search-btn {
-            background-color: darken($primary-dark-color, 10%);
-            @include border-radius( $null $default-padding*5 $default-padding*5 $null);
-            @include ecs-typo($primary-font-regular, 400, 15px, 37px, $white);
-            padding: $default-padding/2 $default-padding;
+            background-color: darken($primary-dark, 10%);
+            @include border-radius( $null  $dpadding*5  $dpadding*5 $null);
+            // @include typo($primary-font-regular, 400, 15px, 37px, $white);
+            padding:  $dpadding/2  $dpadding;
             border: none;
             &:hover {
-                background-color: darken($primary-dark-color, 5%);
+                background-color: darken($primary-dark, 5%);
             }
         }
     }
 }
 
 .clear-btn {
-    @include ecs-typo($primary-font-regular, 400, 15px, 15px, rgba($nutral-dark-color, .3));
-    margin-left: $default-margin/2;
+    // @include typo($primary-font-regular, 400, 15px, 15px, rgba($ nutral-color-4, .3));
+    margin-left:  $dmargin/2;
     i {
-        margin-right: $default-margin;
+        margin-right:  $dmargin;
     }
     &:hover {
-        color: rgba($nutral-dark-color, .7);
+        color: rgba($nutral-color-4, .7);
     }
 }
 
 .eivr-warning {
-    margin-top: $default-margin*2;
-    @include ecs-typo($primary-font-regular, 600, 15px, 15px, $nutral-dark-color);
+    margin-top:  $dmargin*2;
+    // @include typo($primary-font-regular, 600, 15px, 15px, $ nutral-color-4);
 }
 
 .alert-danger {
-    background-color: $transparent-bg;
+    background-color: transparent;
     padding: $null;
     border: none;
     max-width: $full - 20;
     width: $full;
     display: block;
     margin: $null auto;
-    margin-bottom: $default-margin*2;
-    @include ecs-typo($primary-font-regular, 400, 12px, 15px, $theme-danger);
+    margin-bottom:  $dmargin*2;
+    // @include typo($primary-font-regular, 400, 12px, 15px, $theme-danger);
 }
 
 select {
-    background-color: $primary-dark-color;
-    @include ecs-typo($primary-font-regular, 400, 13px, 18px, $white);
-    padding: $default-padding*1.45 $default-padding;
+    background-color: $primary-dark;
+    // @include typo($primary-font-regular, 400, 13px, 18px, $white);
+    padding:  $dpadding*1.45  $dpadding;
     @include align-self(flex-end);
     border: none;
-    width: $default-unit*65;
+    width: $du*65;
     option {
-        padding: $default-padding*1.35 $default-padding;
+        padding:  $dpadding*1.35  $dpadding;
         display: block;
         line-height: 24px;
         ;
     }
+}
+
+.MuiOutlinedInput-root{
+    background-color: white;
+    input{
+        padding: 5px !important;
+    }
+}
+
+.primary-btn{
+    background-color: $primary-color !important;
+}
+.secondary-btn{
+    background-color: $primary-dark !important;
 }
