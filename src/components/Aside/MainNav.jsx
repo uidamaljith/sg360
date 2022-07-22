@@ -31,8 +31,8 @@ function MainNav() {
       <li>
         <Link className="active" to="/dashboard">Home</Link>
       </li>
-      <li><a href="http://">Manage Users</a></li>
-      <li><a href="http://">Manage Emergency Contacts</a></li>
+      <li> <Link className="active" to="/manageusers">Manage Users</Link></li>
+      <li><Link className="active" to="/manageEmergency">Manage Emergency Contacts</Link></li>
       <li><a href="http://">Suspicious Activity</a></li>
       <li><a href="" onClick={logoutHandler}>Logout</a> </li>
     </ul>
