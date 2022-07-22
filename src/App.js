@@ -5,7 +5,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import SignInSide from './components/Login/SignIn';
 import Manageusers from './components/Manageusers/Manageusers'
 import ManageEmergency from './components/Mangeemergencycontacts/Manageemergency'
-import Login from './components/login/login';
+// import Login from './components/login/login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './components/Auth';
 import { RequireAuth } from './components/RequireAuth'
@@ -55,7 +55,7 @@ function App() {
     };
 
     ws.onclose = function (e) {
-      document.body.style.backgroundColor = "white";
+      // document.body.style.backgroundColor = "white";
       setTimeout(function () {
         setReconnectWs(true);
       }, 5000);

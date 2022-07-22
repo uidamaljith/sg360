@@ -1,0 +1,35 @@
+@import "../../scss/master.scss";
+
+.manage-emergency{
+    margin-left: $du * 140;
+    @include flexbox();
+    @include flex-direction(column);
+    height: $full;
+    header {
+      background-color: $primary-dark;
+      @include flexbox();
+      @include flex-direction(row);
+      @include align-items(center);
+      padding: $null $dpadding * 5;
+      .back-button{
+        border: #ffffff solid 1px;
+        height: 40px;
+        
+      }
+      h2 {
+        @include font-size(26px);
+        font-family: $primary-font;
+        color: rgba($theme-bright, 1);
+        font-weight: bold;
+        text-align: left;
+        padding: $dpadding * 5;
+      }
+    }
+    .content-section {
+      padding: $dpadding * 10;
+      @include flexbox();
+      @include flex-direction(row);
+      @include justify-content(space-between);
+    }
+
+}
